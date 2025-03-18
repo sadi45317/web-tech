@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Table</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Product Table</h2>
+<table id="productTable">
+    <tr>
+        <th>NAME</th>
+        <th>PROFIT</th>
+        <th>ACTIONS</th>
+    </tr>
+    <tr>
+        <td>Samsung</td>
+        <td>5000</td>
+        <td>
+            <button onclick="editProduct(this)">Edit</button>
+            <button onclick="deleteProduct(this)">Delete</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Nokia</td>
+        <td>1500</td>
+        <td>
+            <button onclick="editProduct(this)">Edit</button>
+            <button onclick="deleteProduct(this)">Delete</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Xiaomi</td>
+        <td>3300</td>
+        <td>
+            <button onclick="editProduct(this)">Edit</button>
+            <button onclick="deleteProduct(this)">Delete</button>
+        </td>
+    </tr>
+</table>
+
+<h2>Edit Product</h2>
+<form id="editForm" style="display:none;">
+    Name: <input type="text" id="editName"><br>
+    Buying Price: <input type="number" id="editBuyingPrice"><br>
+    Selling Price: <input type="number" id="editSellingPrice"><br>
+    Displayable: <input type="checkbox" id="editDisplayable"><br>
+    <button type="button" onclick="saveEdit()">Save</button>
+</form>
+
+<h2>Delete Product</h2>
+<form id="deleteForm" style="display:none;">
+    Name: <span id="deleteName"></span><br>
+    Buying Price: <span id="deleteBuyingPrice"></span><br>
+    Selling Price: <span id="deleteSellingPrice"></span><br>
+    Displayable: <span id="deleteDisplayable"></span><br>
+    <button type="button" onclick="confirmDelete()">Delete</button>
+</form>
+
+<script>
+    let currentEditRow;
+
+    function editProduct(button) {
+        let row = button.parentElement.parentElement;
+        currentEditRow = row;
+        document.getElementById('editName').value = row.cells[0].innerText;
+        document.getElementById('editBuyingPrice').value = '';
+        document.getElementById('editSellingPrice').value = '';
+        document.getElementById('editDisplayable').checked = true;
+        document.getElementById('editForm').style.display = 'block';
+    }
+
+    function saveEdit() {
+        if (currentEditRow) {
+            currentEditRow.cells[0].innerText = document.getElementById('editName').value;
+            currentEditRow.cells[1].innerText = document.getElementById('editSellingPrice').value - document.getElementById('editBuyingPrice').value;
+            document.getElementById('editForm').style.display = 'none';
+        }
+    }
+
+    function deleteProduct(button) {
+        let row = button.parentElement.parentElement;
+        document.getElementById('deleteName').innerText = row.cells[0].innerText;
+        document.getElementById('deleteBuyingPrice').innerText = '';
+        document.getElementById('deleteSellingPrice').innerText = '';
+        document.getElementById('deleteDisplayable').innerText = 'Yes';
+        document.getElementById('deleteForm').style.display = 'block';
+    }
+
+    function confirmDelete() {
+        if (confirm('Are you sure you want to delete this product?')) {
+            currentEditRow.remove();
+            document.getElementById('deleteForm').style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
