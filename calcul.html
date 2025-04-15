@@ -1,0 +1,113 @@
+ <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Calculator</title>
+  </head>
+  <body>
+  
+  <h2>Calculator</h2>
+  
+  <input type="text" id="result" readonly><br><br>
+  
+  <table border="1" cellpadding="15">
+    <tr>
+      <td onclick="press('7')">7</td>
+      <td onclick="press('8')">8</td>
+      <td onclick="press('9')">9</td>
+      <td onclick="press('+')">+</td>
+    </tr>
+    <tr>
+      <td onclick="press('4')">4</td>
+      <td onclick="press('5')">5</td>
+      <td onclick="press('6')">6</td>
+      <td onclick="press('-')">-</td>
+    </tr>
+    <tr>
+      <td onclick="press('1')">1</td>
+      <td onclick="press('2')">2</td>
+      <td onclick="press('3')">3</td>
+      <td onclick="press('*')">*</td>
+    </tr>
+    <tr>
+      <td onclick="press('0')">0</td>
+      <td onclick="press('.')">.</td>
+      <td onclick="press('=')">=</td>
+      <td onclick="press('/')">/</td>
+    </tr>
+    <tr>
+      <td colspan="2" onclick="press('C')">Clear</td>
+      <td colspan="2" onclick="press('D')">Del</td>
+    </tr>
+  </table>
+  
+  <script>
+  let first = "";
+  let second = "";
+  let op = "";
+  let isSecond = false;
+  
+  function press(value) {
+    let display = document.getElementById("result");
+  
+    
+    if (!isNaN(value) || value === ".") {
+      if (!isSecond) {
+        first += value;
+        display.value = first;
+      } else {
+        second += value;
+        display.value = second;
+      }
+    }
+  
+    
+    else if (value === "+" || value === "-" || value === "*" || value === "/") {
+      if (first !== "") {
+        op = value;
+        isSecond = true;
+      }
+    }
+  
+    
+    else if (value === "=") {
+      let result = 0;
+      let num1 = parseFloat(first);
+      let num2 = parseFloat(second);
+  
+      if (op === "+") result = num1 + num2;
+      else if (op === "-") result = num1 - num2;
+      else if (op === "*") result = num1 * num2;
+      else if (op === "/") result = num2 !== 0 ? num1 / num2 : "Error";
+  
+      display.value = result;
+      first = result.toString();
+      second = "";
+      op = "";
+      isSecond = false;
+    }
+  
+    // Clear
+    else if (value === "C") {
+      first = "";
+      second = "";
+      op = "";
+      isSecond = false;
+      display.value = "";
+    }
+  
+    
+    else if (value === "D") {
+      if (!isSecond) {
+        first = first.slice(0, -1);
+        display.value = first;
+      } else {
+        second = second.slice(0, -1);
+        display.value = second;
+      }
+    }
+  }
+  </script>
+  
+  </body>
+  </html>
+ 
